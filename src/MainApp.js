@@ -1,69 +1,57 @@
-import React from 'react';
-import { StyleSheet, View, ImageBackground, Image } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Image, Text, TouchableHighlight } from 'react-native';
+
+const heartIcon = require('./images/plainHeart.png');
+
+class MainApp extends Component {
+  state = {
+    liked: false,
+  };
+
+  _onPressBtn = () => {
+    this.setState({
+      liked: !this.state.liked,
+    });
+  }
+
+  render() {
+    const likedStyles = this.state.liked ? styles.liked : null;
+
+    return (
+      <View style={styles.container}>
+        <TouchableHighlight
+          onPress={this._onPressBtn}
+          style={styles.btn}
+          underlayColor="#fefefe"
+        >
+          <Image source={heartIcon} style={[styles.icon, likedStyles]} />
+        </TouchableHighlight>
+        <Text style={styles.text}>Do you like this app?</Text>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-fullscreen: {
-flex: 1,
-},
-container: {
-position: 'absolute',
-backgroundColor: '#202020',
-borderRadius: 5,
-flexDirection: 'row',
-height: 50,
-padding: 5,
-paddingTop: 16,
-bottom: 30,
-right: 10,
-left: 10,
-borderWidth: 1,
-borderColor: '#303030',
-},
-icon: {
-tintColor: '#fff',
-height: 16,
-width: 16,
-marginLeft: 5,
-marginRight: 5,
-},
-progress: {
-backgroundColor: '#000',
-borderRadius: 7,
-flex: 1,
-height: 14,
-margin: 10,
-marginTop: 2,
-},
-progressBar: {
-backgroundColor: '#bf161c',
-borderRadius: 5,
-height: 10,
-margin: 2,
-width: 80,
-},
+  container: {
+    marginTop: 50,
+    alignItems: 'center',
+  },
+  btn: {
+    borderRadius: 5,
+    padding: 10,
+  },
+  icon: {
+    width: 180,
+    height: 180,
+    tintColor: '#f1f1f1',
+  },
+  liked: {
+    tintColor: '#e74c3c',
+  },
+  text: {
+    marginTop: 20,
+  },
 });
 
-const fullScreenIcon = require('./images/full-screen.png');
-const playIcon = require('./images/play.png');
-const volumeIcon = require('./images/sound.png');
-const hdIcon = require('./images/hdSign.png');
-const remoteImage = {
-uri:
-'https://s3.amazonaws.com/crysfel/public/book/new-york.jpg' };
-
-const MainApp = () => {
-return (
-<ImageBackground source={remoteImage} style={styles.fullscreen}>
-<View style={styles.container}>
-<Image source={playIcon} style={styles.icon} />
-<Image source={volumeIcon} style={styles.icon} />
-<View style={styles.progress}>
-<View style={styles.progressBar} />
-</View>
-<Image source={hdIcon} style={styles.icon} />
-<Image source={fullScreenIcon} style={styles.icon} />
-</View>
-</ImageBackground>
-);
-};
 export default MainApp;
